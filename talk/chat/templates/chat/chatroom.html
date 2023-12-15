@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+{{room.name}}
+
+<div id="chat-messages">
+    {% for message in messages %}
+        <p><strong>{{message.user.username}}: </strong>{{message.text}}</p>
+    {% endfor %}
+</div>
+
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="message" id="message-input">
+    <button type="submit" id="send-button">Send</button>
+</form>
+
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    const chatRoomName = "{{room.slug}}"
+    const username = "{{request.user.username}}"
+    
+    const chatSocket = new WebSocket(
+        'ws://'
+        + window.location.host
+        + '/ws/'
+        + chatRoomName
+        + '/'
+    )
+
+    chatSocket.onmessage = function(e){
+        const data = JSON.parse(e.data)
+        if (data.message){
+            let html = `<p><strong>${data.username}: </strong>${data.message}</p>`
+            document.getElementById('chat-messages').innerHTML += html
+        } else {
+            console.error("Message is empty");
+        }
+    }
+    chatSocket.onclose = function(e){
+        console.log('Socket closed');
+    }
+
+    document.getElementById('send-button').onclick = function(e){
+        e.preventDefault()
+        const messageInput = document.getElementById('message-input')
+        const message = messageInput.value
+        chatSocket.send(JSON.stringify({
+            'message': message,
+            'username': username,
+            'room_slug': chatRoomName
+        }))
+        messageInput.value = ""
+    }
+</script>
+{% endblock scripts %}

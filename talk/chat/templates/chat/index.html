@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block page_title %}Talk - Chat with your friends{% endblock page_title %}
+
+{% block content %}
+    {% for room in rooms %}
+    <a href="{{room.get_absolute_url}}">{{room}}</a><br>
+    {% endfor %}
+{% endblock content %}
