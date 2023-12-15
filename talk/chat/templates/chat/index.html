@@ -1,9 +1,12 @@
 {% extends "base.html" %}
 
-{% block page_title %}Talk - Chat with your friends{% endblock page_title %}
+{% block page_title %}Talk - List of Rooms{% endblock page_title %}
 
 {% block content %}
+    <h1 class="text-4xl m-8">List of Rooms</h1>
     {% for room in rooms %}
-    <a href="{{room.get_absolute_url}}">{{room}}</a><br>
+    <div class="flex shadow-lg m-10 bg-blue-900 text-white rounded-lg">
+        <a class="p-5 block w-full text-xl" href="{{room.get_absolute_url}}">{{room}}</a><br>
+    </div>
     {% endfor %}
 {% endblock content %}

@@ -9,6 +9,21 @@
     {% block css_files %}{% endblock css_files %}
 </head>
 <body>
+    <nav class="shadow-lg p-2">
+        <div class="contianer flex flex-wrap justify-between mx-20">
+            <a class="flex items-center py-1 px-4" href="{% url "chat:index" %}">
+                <img class="h-10 mr-2" src="https://cdn2.iconfinder.com/data/icons/social-aquicons/512/Email.png" alt="">
+                <span class="self-center text-3xl font-semibold">Chat App</span>
+            </a>
+
+            <div class="w-auto">
+                <ul class="flex p-4 border rounded-lg border-grau-100 bg-blue-50">
+                    <li><a class="block py-2 px-3 mr-2 rounded bg-blue-700 text-white" href="{% url "chat:index" %}">Rooms</a></li>
+                    <li><a class="block py-2 px-3 rounded" href="">About</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
     {% block content %}{% endblock content %}
 </body>
 {% block scripts %}{% endblock scripts %}
